@@ -1,4 +1,4 @@
-import {CountryCode} from "libphonenumber-js";
+import { GetNFTType } from "./nft";
 
 export type HookOnSuccessType = () => void | null;
 export type HookOnErrorType = () => void | null;
@@ -11,8 +11,8 @@ export interface GlobalApiResponse {
 }
 
 export type GlobalRequestParams = {
-  page?: number =1,
-  size?: number = 20,
+  page?: number,
+  size?: number,
   searchQuery?: string,
 }
 
