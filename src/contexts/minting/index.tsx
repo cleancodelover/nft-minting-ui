@@ -48,8 +48,9 @@ const MintingProvider = ({ children }: MintingProviderProps) => {
     } catch (error: any) {
       // console.error('Minting failed:', error);
       const errorMessage = new Error(error);
-
-      showToast && showToast({message:`${extractErrorMessage(errorMessage)}`, type:'error'});
+      if(showToast){
+        showToast({message:`${extractErrorMessage(errorMessage)}`, type:'error'});
+      }
     }
   };
 

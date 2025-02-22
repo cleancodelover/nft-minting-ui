@@ -24,7 +24,7 @@ const NFTItemCardComponent = ({nft, index, setNft}: ComponentProps) => {
       animate={{opacity: 1, y: 0, scale: 1}}
       transition={{duration: 0.5, ease: "easeOut", delay: index * 0.2}}
       whileHover={{scale: 1.05, transition: {duration: 0.3}}}
-      onClick={()=>{setNft && setNft({...nft})}}
+      onClick={()=>{if(setNft){ setNft({...nft}) }}}
       
     >
       <div className="w-full h-[192px] bg-black/50 relative overflow-hidden rounded-t-lg">
