@@ -10,7 +10,9 @@ const MintCardSectionUi = () => {
   const [nft, setNft] = useState<GetNFTType>()
 
   const toggleTab = (data?: GetNFTType) => {
-    data && setNft({...data})
+    if (data) {
+      setNft({...data});
+    }
     setTab(prev => (prev === "create" ? "success" : "create"));
   };
 

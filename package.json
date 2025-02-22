@@ -5,6 +5,9 @@
   "engines": {
   "node": "18.x"
 },
+  "rules": {
+    "@typescript-eslint/no-unused-expressions": "off"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
