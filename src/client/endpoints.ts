@@ -1,0 +1,1 @@
+export const MINTING_ENDPONT = "/v1/nfts";
