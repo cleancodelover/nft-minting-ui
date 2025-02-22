@@ -34,16 +34,16 @@ const MintingProvider = ({ children }: MintingProviderProps) => {
     }
 
     try {
-      // const transaction = await walletClient.writeContract({
-      //   address: CONTRACT_ADDRESS,
-      //   abi: nftAbi,
-      //   functionName: 'mint',
-      //   args: [address, BigInt(1)], // Mint token ID 1 to the user's wallet
-      // });
-      // console.log('NFT Minted! Transaction Hash:', transaction);
+      const transaction = await walletClient.writeContract({
+        address: CONTRACT_ADDRESS,
+        abi: nftAbi,
+        functionName: 'mint',
+        args: [address, BigInt(1)], // Mint token ID 1 to the user's wallet
+      });
+      console.log('NFT Minted! Transaction Hash:', transaction);
       // setTransactionHash(transaction);
-      // return transaction ?? generateFakeAddress();
-      return generateFakeAddress();
+      return transaction ?? generateFakeAddress();
+      // return generateFakeAddress();
       
     } catch (error: any) {
       // console.error('Minting failed:', error);
