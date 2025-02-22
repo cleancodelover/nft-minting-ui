@@ -13,3 +13,9 @@ export function extractErrorMessage(error: any): string {
   export function formatNumberWithHash(num: number): string {
     return `#${num.toString().padStart(4, "0")}`;
   }
+
+  export function generateRandom5DigitNumber() {
+    const min = 10000;
+    const max = 99999;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }

@@ -4,6 +4,7 @@ import { minNFTApi } from "@/src/client/requests/mint";
 import useToast from "../notifications/toast";
 import { PostNFTType } from "@/src/types/nft";
 import { useMinting } from "@/src/contexts/minting";
+import { generateRandom5DigitNumber } from "@/src/helpers";
 
 export const useMintingHook = (
   onSuccess?: HookOnSuccessType,
@@ -43,6 +44,7 @@ export const useMintingHook = (
     const transaction = mintNFT && await mintNFT();
     if (transaction) {
       data.nftAddress = transaction;
+      data.tokenId = generateRandom5DigitNumber();
       mutate(data);
     }
   };

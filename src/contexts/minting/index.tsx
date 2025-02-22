@@ -1,6 +1,7 @@
 //#region Imports
-import { extractErrorMessage, generateFakeAddress } from "@/src/helpers";
+import { extractErrorMessage, generateFakeAddress, generateRandom5DigitNumber } from "@/src/helpers";
 import useToast from "@/src/hooks/notifications/toast";
+import { PostNFTType } from "@/src/types/nft";
 import React, { createContext, useContext, useState } from "react";
 import { parseAbi } from "viem";
 import { useAccount, useWalletClient } from "wagmi";
@@ -11,12 +12,12 @@ type MintingProviderProps = {
 };
 
 export type MintingContextModel = {
-    mintNFT?:()=>void,
+    mintNFT?:(data?: PostNFTType)=>void,
 };
 
 const CONTRACT_ADDRESS = "0x743f49311a82fe72eb474c44e78da2a6e0ae951c";
 const nftAbi = parseAbi([
-  "function mint(address to, uint256 tokenId) external",
+  "function mint(address to, uint256 tokenId, string memory metadataUrl) public returns (string memory)",
 ]);
 
 export const MintingContext = createContext<MintingContextModel>({});
@@ -27,9 +28,12 @@ const MintingProvider = ({ children }: MintingProviderProps) => {
   // const [transactionHash, setTransactionHash] = useState<string | null>(null);
   const { showToast } = useToast();
 
-  const mintNFT = async () => {
-    if (!walletClient || !address) {
+  const mintNFT = async (data?: PostNFTType) => {
+    if (!walletClient || !address || !data || !data?.tokenId) {
       console.error('Wallet not connected');
+      if(showToast){
+        showToast({message:`All fields are required. Wallet may also not connected`, type:'error'});
+      }
       return;
     }
 
@@ -38,9 +42,9 @@ const MintingProvider = ({ children }: MintingProviderProps) => {
         address: CONTRACT_ADDRESS,
         abi: nftAbi,
         functionName: 'mint',
-        args: [address, BigInt(1)], // Mint token ID 1 to the user's wallet
+        args: [address, BigInt(data.tokenId), data.logoUrl],
       });
-      console.log('NFT Minted! Transaction Hash:', transaction);
+      // console.log('NFT Minted! Transaction Hash:', transaction);
       // setTransactionHash(transaction);
       return transaction ?? generateFakeAddress();
       // return generateFakeAddress();
@@ -51,6 +55,7 @@ const MintingProvider = ({ children }: MintingProviderProps) => {
       if(showToast){
         showToast({message:`${extractErrorMessage(errorMessage)}`, type:'error'});
       }
+      return null;
     }
   };
 

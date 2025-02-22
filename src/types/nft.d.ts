@@ -4,6 +4,7 @@ export interface PostNFTType {
     name: string;
     description: string;
     logoUrl: string;
+    tokenId?: number;
     nftAddress?: string;
   }
 
