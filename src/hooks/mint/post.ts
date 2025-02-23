@@ -45,7 +45,8 @@ export const useMintingHook = (
     if (transaction) {
       data.nftAddress = transaction;
       data.tokenId = generateRandom5DigitNumber();
-      mutate(data);
+      console.log("data :>>>>>>>>>>>>>", data);
+      // mutate(data);
     }
   };
 

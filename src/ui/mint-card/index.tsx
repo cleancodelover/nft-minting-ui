@@ -1,11 +1,16 @@
 "use client";
-import {useState} from "react";
+import {FC, RefObject, useState} from "react";
 import {motion, AnimatePresence} from "framer-motion";
 import MintCardCreateNFT from "./mint";
 import MintCardNFTSuccess from "./success";
 import { GetNFTType } from "@/src/types/nft";
 
-const MintCardSectionUi = () => {
+type MintCardProps = {
+  sectionRef?:RefObject<HTMLDivElement | null>
+}
+
+const MintCardSectionUi:FC<MintCardProps> = ({ sectionRef }) => {
+
   const [tab, setTab] = useState<"create" | "success">("create");
   const [nft, setNft] = useState<GetNFTType>()
 
@@ -32,6 +37,7 @@ const MintCardSectionUi = () => {
         animate={{opacity: 1, y: 0}}
         exit={{opacity: 0, y: -20}}
         transition={{duration: 0.5, ease: "easeInOut"}}
+        ref={sectionRef}
         className="w-full flex items-center justify-center"
       >
         <AnimatePresence mode="wait">

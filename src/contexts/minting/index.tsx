@@ -1,8 +1,8 @@
 //#region Imports
-import { extractErrorMessage, generateFakeAddress, generateRandom5DigitNumber } from "@/src/helpers";
+import { extractErrorMessage, generateFakeAddress } from "@/src/helpers";
 import useToast from "@/src/hooks/notifications/toast";
 import { PostNFTType } from "@/src/types/nft";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { parseAbi } from "viem";
 import { useAccount, useWalletClient } from "wagmi";
 //#endregion
@@ -13,6 +13,7 @@ type MintingProviderProps = {
 
 export type MintingContextModel = {
     mintNFT?:(data?: PostNFTType)=>void,
+    isConnected?:boolean
 };
 
 const CONTRACT_ADDRESS = "0x743f49311a82fe72eb474c44e78da2a6e0ae951c";
@@ -24,8 +25,7 @@ export const MintingContext = createContext<MintingContextModel>({});
 
 const MintingProvider = ({ children }: MintingProviderProps) => {
   const { data: walletClient } = useWalletClient();
-  const { address } = useAccount();
-  // const [transactionHash, setTransactionHash] = useState<string | null>(null);
+  const { address, isConnected } = useAccount();
   const { showToast } = useToast();
 
   const mintNFT = async (data?: PostNFTType) => {
@@ -44,10 +44,8 @@ const MintingProvider = ({ children }: MintingProviderProps) => {
         functionName: 'mint',
         args: [address, BigInt(data.tokenId), data.logoUrl],
       });
-      // console.log('NFT Minted! Transaction Hash:', transaction);
-      // setTransactionHash(transaction);
+      
       return transaction ?? generateFakeAddress();
-      // return generateFakeAddress();
       
     } catch (error: any) {
       // console.error('Minting failed:', error);
@@ -60,7 +58,7 @@ const MintingProvider = ({ children }: MintingProviderProps) => {
   };
 
   return (
-    <MintingContext.Provider value={{mintNFT}}>{children}</MintingContext.Provider>
+    <MintingContext.Provider value={{mintNFT, isConnected}}>{children}</MintingContext.Provider>
   );
 };
 
